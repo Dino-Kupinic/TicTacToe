@@ -1,0 +1,19 @@
+.canvas {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    transform: translate(-50%, 50%);
+    left: 50%;
+    right: 50%;
+}
+
+#title {
+    font-size: 50px;
+    font-family: "Yu Gothic";
+    color: #ece6e6;
+    text-align: center;
+}
+
+body {
+    background-color: #151414;
+}
