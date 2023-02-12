@@ -22,7 +22,7 @@ window.onload = () => {
 }
 
 function addEventListeners() {
-    let fields = document.querySelectorAll("#field");
+    let fields = document.querySelectorAll(".field");
     fields.forEach(field => {
         field.addEventListener("click", event => {
             event.stopPropagation();
@@ -42,14 +42,22 @@ function styleFields(grid) {
     let canvas = document.querySelector(".canvas");
     grid.forEach(field => {
         let div = document.createElement("div");
-        div.setAttribute("id", "field");
+        div.setAttribute("class", "field");
         div.style.width = "90px";
         div.style.height = "90px";
         div.style.float = "left";
         div.style.margin = "5px";
         div.style.backgroundColor = field.getColor();
+        createSymbolPlaceholder(div);
         canvas.appendChild(div);
     })
+}
+
+function createSymbolPlaceholder(div) {
+    let paragraph = document.createElement("p");
+    paragraph.setAttribute("class", "symbol");
+    paragraph.textContent = "X";
+    div.appendChild(paragraph);
 }
 
 function generateColor() {

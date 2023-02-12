@@ -7,9 +7,18 @@
     right: 50%;
 }
 
+.symbol {
+    font-family: "Arial", serif;
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 #title {
     font-size: 50px;
-    font-family: "Yu Gothic";
+    font-family: "Yu Gothic", serif;
     color: #ece6e6;
     text-align: center;
 }
