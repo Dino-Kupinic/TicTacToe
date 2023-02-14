@@ -21,15 +21,31 @@ window.onload = () => {
     addEventListeners();
 }
 
+
+
 function addEventListeners() {
     let fields = document.querySelectorAll(".field");
     fields.forEach(field => {
         field.addEventListener("click", event => {
             event.stopPropagation();
-            field.style.backgroundColor = "purple";
+            placeCorrectSymbol(field);
         });
     });
 }
+
+let player1Turn = true;
+
+function placeCorrectSymbol(field) {
+    let p = field.querySelector("p");
+    if (player1Turn) {
+        p.textContent = "X";
+        player1Turn = false;
+    } else {
+        p.textContent = "O";
+        player1Turn = true;
+    }
+}
+
 
 function createFields(grid) {
     const GRID_SIZE = 9;
@@ -43,20 +59,15 @@ function styleFields(grid) {
     grid.forEach(field => {
         let div = document.createElement("div");
         div.setAttribute("class", "field");
-        div.style.width = "90px";
-        div.style.height = "90px";
-        div.style.float = "left";
-        div.style.margin = "5px";
         div.style.backgroundColor = field.getColor();
         createSymbolPlaceholder(div);
         canvas.appendChild(div);
-    })
+    });
 }
 
 function createSymbolPlaceholder(div) {
     let paragraph = document.createElement("p");
     paragraph.setAttribute("class", "symbol");
-    paragraph.textContent = "X";
     div.appendChild(paragraph);
 }
 

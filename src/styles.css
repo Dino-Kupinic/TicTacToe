@@ -7,6 +7,13 @@
     right: 50%;
 }
 
+.field {
+    width: 90px;
+    height: 90px;
+    float: left;
+    margin: 5px;
+}
+
 .symbol {
     font-family: "Arial", serif;
     font-size: 30px;
