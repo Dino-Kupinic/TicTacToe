@@ -14,14 +14,17 @@ class Field {
     }
 }
 
+
 window.onload = () => {
-    let grid = [];
-    createFields(grid);
-    styleFields(grid);
-    addEventListeners();
+    run()
 }
 
-
+function run() {
+    let grid = [];
+    createFields(grid)
+    styleFields(grid)
+    addEventListeners()
+}
 
 function addEventListeners() {
     let fields = document.querySelectorAll(".field");
@@ -29,7 +32,7 @@ function addEventListeners() {
         field.addEventListener("click", event => {
             event.stopPropagation();
             placeCorrectSymbol(field);
-        });
+        }, {once : true});
     });
 }
 
