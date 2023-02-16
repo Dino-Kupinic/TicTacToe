@@ -14,20 +14,28 @@ class Field {
     }
 }
 
+let grid = [];
 
 window.onload = () => {
-    run();
-}
-
-function run() {
-    let grid = [];
-    createFields(grid);
-    styleFields(grid);
+    createFields();
+    styleFields();
     addEventListeners();
 }
 
-function checkWin() {
+function convertTo2DArray() {
+    let arr = [];
+    for (let i = 0; i < 3; i++) {
+        let row = [];
+        for (let j = 0; j < 3; j++) {
+            row.push(grid[i * 3 + j]);
+        }
+        arr.push(row);
+    }
+    return arr;
+}
 
+function checkWin() {
+    let grid2D = convertTo2DArray();
 }
 
 function addEventListeners() {
@@ -55,14 +63,14 @@ function placeCorrectSymbol(field) {
 }
 
 
-function createFields(grid) {
+function createFields() {
     const GRID_SIZE = 9;
     for (let i = 0; i < GRID_SIZE; i++) {
         grid.push(new Field(generateColor));
     }
 }
 
-function styleFields(grid) {
+function styleFields() {
     let canvas = document.querySelector(".canvas");
     grid.forEach(field => {
         let div = document.createElement("div");
