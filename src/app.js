@@ -45,16 +45,59 @@ function checkWin() {
         grid2D[row][col] = p.textContent;
     });
 
-    console.log(grid2D);
+    console.log(grid2D)
+
+    //check rows
+    for (let i = 0; i < 3; i++) {
+        if (grid2D[i][0] !== "" && grid2D[i][0] === grid2D[i][1] && grid2D[i][1] === grid2D[i][2]) {
+            return true;
+        }
+    }
+
+    //check cols
+    for (let j = 0; j < 3; j++) {
+        if (grid2D[0][j] !== "" && grid2D[0][j] === grid2D[1][j] && grid2D[1][j] === grid2D[2][j]) {
+            return true;
+        }
+    }
+
+    // check diagonals
+    if (grid2D[0][0] === grid2D[1][1] && grid2D[1][1] === grid2D[2][2]) {
+        return true;
+    }
+
+    if (grid2D[0][2] === grid2D[1][1] && grid2D[1][1] === grid2D[2][0]) {
+        return true;
+    }
+
+    return false;
+}
+
+let count = 0;
+
+function EventLogic(event, field) {
+    event.stopPropagation()
+    placeCorrectSymbol(field)
+    let outcome = checkWin()
+    count++
+    if (outcome && count >= 3) {
+        console.log("someone won")
+        disableEventListeners();
+    }
+}
+
+function disableEventListeners() {
+    let fields = document.querySelectorAll(".field");
+    fields.forEach(field => {
+        field.removeEventListener("click", EventLogic, {once : true});
+    });
 }
 
 function addEventListeners() {
     let fields = document.querySelectorAll(".field");
     fields.forEach(field => {
         field.addEventListener("click", event => {
-            event.stopPropagation();
-            placeCorrectSymbol(field);
-            checkWin();
+            EventLogic(event, field);
         }, {once : true});
     });
 }
