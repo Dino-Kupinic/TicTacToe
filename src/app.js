@@ -16,14 +16,18 @@ class Field {
 
 
 window.onload = () => {
-    run()
+    run();
 }
 
 function run() {
     let grid = [];
-    createFields(grid)
-    styleFields(grid)
-    addEventListeners()
+    createFields(grid);
+    styleFields(grid);
+    addEventListeners();
+}
+
+function checkWin() {
+
 }
 
 function addEventListeners() {
@@ -32,6 +36,7 @@ function addEventListeners() {
         field.addEventListener("click", event => {
             event.stopPropagation();
             placeCorrectSymbol(field);
+            checkWin();
         }, {once : true});
     });
 }
@@ -72,6 +77,17 @@ function createSymbolPlaceholder(div) {
     let paragraph = document.createElement("p");
     paragraph.setAttribute("class", "symbol");
     div.appendChild(paragraph);
+}
+
+function restartGame() {
+    let fields = document.querySelectorAll(".field");
+    fields.forEach(field => {
+        let p = field.querySelector("p");
+        p.textContent = "";
+    });
+    player1Turn = true;
+    addEventListeners();
+    //TODO: Fix bug when clicking Restart multiple times
 }
 
 function generateColor() {
