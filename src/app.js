@@ -22,7 +22,7 @@ window.onload = () => {
     addEventListeners();
 }
 
-function convertTo2DArray() {
+function convertTo2DArray(grid) {
     let arr = [];
     for (let i = 0; i < 3; i++) {
         let row = [];
@@ -35,7 +35,17 @@ function convertTo2DArray() {
 }
 
 function checkWin() {
-    let grid2D = convertTo2DArray();
+    let fields = document.querySelectorAll(".field");
+    let grid2D = convertTo2DArray(Array.from(fields));
+
+    fields.forEach((field, index) => {
+        let p = field.querySelector("p");
+        let row = Math.floor(index / 3);
+        let col = index % 3;
+        grid2D[row][col] = p.textContent;
+    });
+
+    console.log(grid2D);
 }
 
 function addEventListeners() {
