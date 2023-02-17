@@ -38,6 +38,7 @@ function checkWin() {
     let fields = document.querySelectorAll(".field");
     let grid2D = convertTo2DArray(Array.from(fields));
 
+    // create 2D array to loop through
     fields.forEach((field, index) => {
         let p = field.querySelector("p");
         let row = Math.floor(index / 3);
@@ -45,29 +46,27 @@ function checkWin() {
         grid2D[row][col] = p.textContent;
     });
 
-    console.log(grid2D)
-
     //check rows
     for (let i = 0; i < 3; i++) {
         if (grid2D[i][0] !== "" && grid2D[i][0] === grid2D[i][1] && grid2D[i][1] === grid2D[i][2]) {
-            return true;
+            return grid2D[i][0];
         }
     }
 
     //check cols
     for (let j = 0; j < 3; j++) {
         if (grid2D[0][j] !== "" && grid2D[0][j] === grid2D[1][j] && grid2D[1][j] === grid2D[2][j]) {
-            return true;
+            return grid2D[0][j];
         }
     }
 
     // check diagonals
     if (grid2D[0][0] === grid2D[1][1] && grid2D[1][1] === grid2D[2][2]) {
-        return true;
+        return grid2D[0][0];
     }
 
     if (grid2D[0][2] === grid2D[1][1] && grid2D[1][1] === grid2D[2][0]) {
-        return true;
+        return grid2D[0][2];
     }
 
     return false;
@@ -76,12 +75,13 @@ function checkWin() {
 let count = 0;
 
 function EventLogic(event, field) {
+    let winnerText = document.querySelector("#winnerText");
     event.stopPropagation()
     placeCorrectSymbol(field)
-    let outcome = checkWin()
+    let outcome = checkWin();
     count++
-    if (outcome && count >= 3) {
-        console.log("someone won")
+    if (count >= 3 && outcome != false) {
+        winnerText.textContent = outcome + " has won!";
         disableEventListeners();
     }
 }
@@ -89,7 +89,9 @@ function EventLogic(event, field) {
 function disableEventListeners() {
     let fields = document.querySelectorAll(".field");
     fields.forEach(field => {
-        field.removeEventListener("click", EventLogic, {once : true});
+        field.removeEventListener("click", event => {
+            EventLogic(event, field);
+        });
     });
 }
 
@@ -148,6 +150,8 @@ function restartGame() {
     });
     player1Turn = true;
     addEventListeners();
+    let winnerText = document.querySelector("#winnerText");
+    winnerText.textContent = "";
     //TODO: Fix bug when clicking Restart multiple times
 }
 
