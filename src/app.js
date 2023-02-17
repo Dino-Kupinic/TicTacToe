@@ -74,10 +74,10 @@ function checkWin() {
 
 let count = 0;
 
-function EventLogic(event, field) {
+function EventLogic(event) {
     let winnerText = document.querySelector("#winnerText");
     event.stopPropagation()
-    placeCorrectSymbol(field)
+    placeCorrectSymbol(event.currentTarget.field);
     let outcome = checkWin();
     count++
     if (count >= 3 && outcome != false) {
@@ -89,18 +89,15 @@ function EventLogic(event, field) {
 function disableEventListeners() {
     let fields = document.querySelectorAll(".field");
     fields.forEach(field => {
-        field.removeEventListener("click", event => {
-            EventLogic(event, field);
-        });
+        field.removeEventListener("click", EventLogic);
     });
 }
 
 function addEventListeners() {
     let fields = document.querySelectorAll(".field");
     fields.forEach(field => {
-        field.addEventListener("click", event => {
-            EventLogic(event, field);
-        }, {once : true});
+        field.addEventListener("click", EventLogic, {once : true});
+        field.field = field;
     });
 }
 
@@ -151,8 +148,7 @@ function restartGame() {
     player1Turn = true;
     addEventListeners();
     let winnerText = document.querySelector("#winnerText");
-    winnerText.textContent = "";
-    //TODO: Fix bug when clicking Restart multiple times
+    winnerText.textContent = "‎";
 }
 
 function generateColor() {

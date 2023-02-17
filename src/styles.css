@@ -37,6 +37,14 @@
     text-align: center;
 }
 
+#restartButton {
+    font-size: 30px;
+    font-family: "Yu Gothic", serif;
+    margin: 0 auto;
+    display: block;
+}
+
 body {
     background-color: #151414;
+    user-select: none;
 }
