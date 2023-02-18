@@ -14,7 +14,7 @@ class Field {
 	}
 }
 
-let grid = [];
+const grid = [];
 
 window.onload = () => {
 	createFields();
@@ -34,17 +34,19 @@ function convertTo2DArray(grid) {
 	return arr;
 }
 
-function checkWin() {
-	let fields = document.querySelectorAll(".field");
-	let grid2D = convertTo2DArray(Array.from(fields));
-
-	// create 2D array to loop through
+function fill2DArray(fields, grid2D) {
 	fields.forEach((field, index) => {
 		let p = field.querySelector("p");
 		let row = Math.floor(index / 3);
 		let col = index % 3;
 		grid2D[row][col] = p.textContent;
 	});
+}
+
+function checkWin() {
+	const fields = document.querySelectorAll(".field");
+	const grid2D = convertTo2DArray(Array.from(fields));
+	fill2DArray(fields, grid2D);
 
 	//check rows
 	for (let i = 0; i < 3; i++) {
@@ -72,29 +74,32 @@ function checkWin() {
 	return false;
 }
 
-let count = 0;
+let symbolsPlaced = 0;
 
 function EventLogic(event) {
-	let winnerText = document.querySelector("#winnerText");
+	symbolsPlaced++;
 	event.stopPropagation();
 	placeCorrectSymbol(event.currentTarget.field);
-	let outcome = checkWin();
-	count++;
-	if (count >= 3 && outcome != false) {
+	displayWin(checkWin());
+}
+
+function displayWin(outcome) {
+	const winnerText = document.querySelector("#winnerText");
+	if (symbolsPlaced >= 3 && outcome != false) {
 		winnerText.textContent = outcome + " has won!";
 		disableEventListeners();
 	}
 }
 
 function disableEventListeners() {
-	let fields = document.querySelectorAll(".field");
+	const fields = document.querySelectorAll(".field");
 	fields.forEach(field => {
 		field.removeEventListener("click", EventLogic);
 	});
 }
 
 function addEventListeners() {
-	let fields = document.querySelectorAll(".field");
+	const fields = document.querySelectorAll(".field");
 	fields.forEach(field => {
 		field.addEventListener("click", EventLogic, {once: true});
 		field.field = field;
@@ -115,6 +120,7 @@ function placeCorrectSymbol(field) {
 }
 
 const GRID_SIZE = 9;
+
 function createFields() {
 	for (let i = 0; i < GRID_SIZE; i++) {
 		grid.push(new Field(generateColor));
@@ -138,18 +144,12 @@ function createSymbolPlaceholder(div) {
 	div.appendChild(paragraph);
 }
 
+
 function restartGame() {
 	player1Turn = true;
 	resetTextContents();
 	addEventListeners();
-	grid.forEach(field => {
-		let divs = document.querySelectorAll(".field");
-		divs.forEach(div => {
-			field.setColor(generateColor());
-			div.style.backgroundColor = field.getColor();
-		})
-	})
-	console.log(grid)
+	generateNewColors();
 }
 
 function resetTextContents() {
@@ -162,8 +162,18 @@ function resetTextContents() {
 	winnerText.textContent = "‎";
 }
 
+function generateNewColors() {
+	grid.forEach(field => {
+		const divs = document.querySelectorAll(".field");
+		divs.forEach(div => {
+			field.setColor(generateColor());
+			div.style.backgroundColor = field.getColor();
+		});
+	});
+}
+
 function generateColor() {
-	let randomColor = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+	const randomColor = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
 	let color;
 
 	switch (randomColor) {
