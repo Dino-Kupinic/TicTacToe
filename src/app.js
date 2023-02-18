@@ -81,7 +81,7 @@ function EventLogic(event) {
 	let outcome = checkWin();
 	count++;
 	if (count >= 3 && outcome != false) {
-        winnerText.textContent = outcome + " has won!";
+		winnerText.textContent = outcome + " has won!";
 		disableEventListeners();
 	}
 }
@@ -104,7 +104,7 @@ function addEventListeners() {
 let player1Turn = true;
 
 function placeCorrectSymbol(field) {
-	let p = field.querySelector("p");
+	const p = field.querySelector("p");
 	if (player1Turn) {
 		p.textContent = "X";
 		player1Turn = false;
@@ -114,18 +114,17 @@ function placeCorrectSymbol(field) {
 	}
 }
 
-
+const GRID_SIZE = 9;
 function createFields() {
-	const GRID_SIZE = 9;
 	for (let i = 0; i < GRID_SIZE; i++) {
 		grid.push(new Field(generateColor));
 	}
 }
 
 function styleFields() {
-	let canvas = document.querySelector(".canvas");
+	const canvas = document.querySelector(".canvas");
 	grid.forEach(field => {
-		let div = document.createElement("div");
+		const div = document.createElement("div");
 		div.setAttribute("class", "field");
 		div.style.backgroundColor = field.getColor();
 		createSymbolPlaceholder(div);
@@ -134,20 +133,32 @@ function styleFields() {
 }
 
 function createSymbolPlaceholder(div) {
-	let paragraph = document.createElement("p");
+	const paragraph = document.createElement("p");
 	paragraph.setAttribute("class", "symbol");
 	div.appendChild(paragraph);
 }
 
 function restartGame() {
-	let fields = document.querySelectorAll(".field");
+	player1Turn = true;
+	resetTextContents();
+	addEventListeners();
+	grid.forEach(field => {
+		let divs = document.querySelectorAll(".field");
+		divs.forEach(div => {
+			field.setColor(generateColor());
+			div.style.backgroundColor = field.getColor();
+		})
+	})
+	console.log(grid)
+}
+
+function resetTextContents() {
+	const fields = document.querySelectorAll(".field");
 	fields.forEach(field => {
 		let p = field.querySelector("p");
 		p.textContent = "";
 	});
-	player1Turn = true;
-	addEventListeners();
-	let winnerText = document.querySelector("#winnerText");
+	const winnerText = document.querySelector("#winnerText");
 	winnerText.textContent = "‎";
 }
 
